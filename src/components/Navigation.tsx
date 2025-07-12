@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, Phone, MessageCircle, ShoppingCart } from "lucide-react";
@@ -19,16 +18,15 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm">
+    <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center"
           >
-            <span className="text-2xl font-bold text-green-800">HOMAVEDA</span>
-            {/* <span className="ml-2 text-sm text-green-600 font-medium">by Dr. Drashti Thakar</span> */}
+            <span className="text-3xl font-bold text-green-800">HOMAVEDA</span>
           </motion.div>
 
           {/* Desktop Menu */}
@@ -38,7 +36,7 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                  className="text-gray-700 hover:text-green-600 px-4 py-2 text-lg font-semibold rounded-md transition-colors duration-300 hover:bg-green-50"
                 >
                   {item.name}
                 </a>
@@ -52,28 +50,28 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
               onClick={onCartClick}
               className="relative p-2 text-gray-700 hover:text-green-600 transition-colors"
             >
-              <ShoppingCart size={20} />
+              <ShoppingCart size={24} />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-sm rounded-full h-6 w-6 flex items-center justify-center">
                   {cartItemsCount}
                 </span>
               )}
             </button>
             <a
               href="tel:+918160333243"
-              className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors duration-200"
+              className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-800 transition-all duration-300 text-lg font-semibold"
             >
-              <Phone size={16} />
-              <span className="text-sm">Call Now</span>
+              <Phone size={20} />
+              <span>Call Now</span>
             </a>
             <a
               href="https://wa.me/918160333243"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition-colors duration-200"
+              className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-800 transition-all duration-300 text-lg font-semibold"
             >
-              <MessageCircle size={16} />
-              <span className="text-sm">WhatsApp</span>
+              <MessageCircle size={20} />
+              <span>WhatsApp</span>
             </a>
           </div>
 
@@ -83,18 +81,18 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
               onClick={onCartClick}
               className="relative p-2 text-gray-700 hover:text-green-600 transition-colors"
             >
-              <ShoppingCart size={20} />
+              <ShoppingCart size={24} />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-sm rounded-full h-6 w-6 flex items-center justify-center">
                   {cartItemsCount}
                 </span>
               )}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-green-600 focus:outline-none"
+              className="inline-flex items-center justify-center p-2 rounded-full text-gray-700 hover:text-green-600 focus:outline-none transition-colors"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
@@ -106,37 +104,37 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-white border-t"
+          transition={{ duration: 0.3 }}
+          className="md:hidden bg-white/95 backdrop-blur-md border-t shadow-lg"
         >
-          <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="px-4 pt-4 pb-4 space-y-4 flex flex-col items-center">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="block px-3 py-2 text-gray-700 hover:text-green-600 text-sm font-medium"
                 onClick={() => setIsOpen(false)}
+                className="px-6 py-3 text-gray-700 hover:text-green-600 text-lg font-semibold bg-gradient-to-r from-white to-green-50 rounded-full shadow-sm hover:shadow-md transition-all duration-300 text-center w-full max-w-xs"
               >
                 {item.name}
               </a>
             ))}
-            <div className="flex space-x-2 px-3 py-2">
-              <a
-                href="tel:+918160333243"
-                className="flex items-center space-x-2 bg-green-600 text-white px-3 py-2 rounded-full text-sm"
-              >
-                <Phone size={14} />
-                <span>Call</span>
-              </a>
-              <a
-                href="https://wa.me/918160333243"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 bg-green-500 text-white px-3 py-2 rounded-full text-sm"
-              >
-                <MessageCircle size={14} />
-                <span>WhatsApp</span>
-              </a>
-            </div>
+
+            <a
+              href="tel:+918160333243"
+              className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-800 transition-all duration-300 text-lg font-semibold w-full max-w-xs"
+            >
+              <Phone size={20} />
+              <span>Call Now</span>
+            </a>
+            <a
+              href="https://wa.me/918160333243"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-700 text-white px-6 py-3 rounded-full shadow-lg hover:from-green-600 hover:to-green-800 transition-all duration-300 text-lg font-semibold w-full max-w-xs"
+            >
+              <MessageCircle size={20} />
+              <span>WhatsApp</span>
+            </a>
           </div>
         </motion.div>
       )}

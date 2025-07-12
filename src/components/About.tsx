@@ -21,7 +21,7 @@ const About = () => {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <div className="space-y-6">
+            {/* <div className="space-y-6">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +60,54 @@ const About = () => {
                 to help you achieve naturally strong, shiny, and healthy hair without 
                 any harmful chemicals.
               </motion.p>
+            </div> */}
+            <div className="space-y-6">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-2xl sm:text-3xl lg:text-5xl font-bold text-gray-900 leading-tight"
+              >
+                Meet <span className="text-green-600">Dr. Drashti Thakar</span>
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-lg sm:text-xl text-gray-700 font-medium"
+              >
+                Your Trusted Hair Care Expert
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="text-base sm:text-lg text-gray-600 leading-relaxed"
+              >
+                As a certified homeopathic doctor with over 5 years of experience,
+                I've dedicated my practice to promoting holistic hair wellness.
+                After witnessing the transformative power of natural remedies,
+                I founded HOMAVEDA to bring you the finest herbal hair care solutions.
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="text-base sm:text-lg text-gray-600 leading-relaxed"
+              >
+                Every product is handcrafted with love, using time-tested ingredients
+                like Arnica, Jaborandi, Amla, Brahmi, and Bhringraj. Our mission is
+                to help you achieve naturally strong, shiny, and healthy hair without
+                any harmful chemicals.
+              </motion.p>
             </div>
+
+
 
             {/* Credentials */}
             <motion.div
