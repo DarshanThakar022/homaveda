@@ -100,12 +100,12 @@ const Hero = () => {
               >
                 Shop Products
               </button>
-              <button 
+              {/* <button 
                 onClick={scrollToAbout}
                 className="border-2 border-green-600 text-green-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-600 hover:text-white transition-all duration-200"
               >
                 Learn More
-              </button>
+              </button> */}
             </motion.div>
           </motion.div>
 

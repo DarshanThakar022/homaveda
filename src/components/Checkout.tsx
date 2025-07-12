@@ -1,6 +1,5 @@
-
 import { motion } from "framer-motion";
-import { X, CreditCard, Smartphone, Banknote, Shield, CheckCircle } from "lucide-react";
+import { X, Shield } from "lucide-react";
 import { useState } from "react";
 
 interface CartItem {
@@ -19,7 +18,6 @@ interface CheckoutProps {
 }
 
 const Checkout = ({ isOpen, onClose, cartItems, onConfirmOrder }: CheckoutProps) => {
-  const [paymentMethod, setPaymentMethod] = useState("cod");
   const [customerDetails, setCustomerDetails] = useState({
     name: "",
     email: "",
@@ -28,13 +26,12 @@ const Checkout = ({ isOpen, onClose, cartItems, onConfirmOrder }: CheckoutProps)
     city: "",
     pincode: ""
   });
-  const [isProcessing, setIsProcessing] = useState(false);
 
   if (!isOpen) return null;
 
   const total = cartItems.reduce((sum, item) => {
     const price = parseInt(item.price.slice(1));
-    return sum + (price * item.quantity);
+    return sum + price * item.quantity;
   }, 0);
 
   const shipping = total >= 999 ? 0 : 99;
@@ -42,54 +39,44 @@ const Checkout = ({ isOpen, onClose, cartItems, onConfirmOrder }: CheckoutProps)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setCustomerDetails(prev => ({
+    setCustomerDetails((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleConfirmOrder = async () => {
+  const handleConfirmOrder = () => {
     if (!customerDetails.name || !customerDetails.phone || !customerDetails.address) {
       alert("Please fill in all required fields");
       return;
     }
 
-    setIsProcessing(true);
-    
-    // Simulate order processing
-    setTimeout(() => {
-      onConfirmOrder(paymentMethod, customerDetails);
-      setIsProcessing(false);
-      onClose();
-    }, 2000);
-  };
+    const orderMessage = `
+Hello, I want to place an order. 📦
 
-  const paymentMethods = [
-    {
-      id: "cod",
-      name: "Cash on Delivery",
-      icon: Banknote,
-      description: "Pay when you receive your order",
-      popular: true
-    },
-    {
-      id: "upi",
-      name: "UPI Payment",
-      icon: Smartphone,
-      description: "Pay using Google Pay, PhonePe, Paytm"
-    },
-    {
-      id: "card",
-      name: "Credit/Debit Card",
-      icon: CreditCard,
-      description: "Secure payment with your card"
-    }
-  ];
+👤 Name: ${customerDetails.name}
+📞 Phone: ${customerDetails.phone}
+🏠 Address: ${customerDetails.address}, ${customerDetails.city} - ${customerDetails.pincode}
+
+🛍️ Order:
+${cartItems.map(item => `• ${item.name} x${item.quantity}`).join("\n")}
+
+💰 Total Amount: ₹${finalTotal}
+
+Please share your UPI QR to proceed with payment.
+`;
+
+    const encodedMessage = encodeURIComponent(orderMessage);
+    const whatsappURL = `https://wa.me/918160333243?text=${encodedMessage}`;
+    window.open(whatsappURL, "_blank");
+
+    onClose(); // Optional: close checkout panel after redirect
+  };
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
       <div className="absolute inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
-      
+
       <motion.div
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
@@ -100,7 +87,7 @@ const Checkout = ({ isOpen, onClose, cartItems, onConfirmOrder }: CheckoutProps)
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b bg-green-50">
             <h2 className="text-2xl font-bold text-gray-900">Checkout</h2>
-            <button 
+            <button
               onClick={onClose}
               className="p-2 hover:bg-white rounded-full transition-colors"
             >
@@ -116,13 +103,19 @@ const Checkout = ({ isOpen, onClose, cartItems, onConfirmOrder }: CheckoutProps)
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-lg" />
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-12 h-12 object-cover rounded-lg"
+                      />
                       <div>
                         <h4 className="font-medium text-gray-900">{item.name}</h4>
                         <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                       </div>
                     </div>
-                    <p className="font-semibold text-green-600">₹{parseInt(item.price.slice(1)) * item.quantity}</p>
+                    <p className="font-semibold text-green-600">
+                      ₹{parseInt(item.price.slice(1)) * item.quantity}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -200,63 +193,14 @@ const Checkout = ({ isOpen, onClose, cartItems, onConfirmOrder }: CheckoutProps)
               </div>
             </div>
 
-            {/* Payment Methods */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Method</h3>
-              <div className="space-y-3">
-                {paymentMethods.map((method) => (
-                  <div
-                    key={method.id}
-                    className={`relative p-4 border-2 rounded-xl cursor-pointer transition-colors ${
-                      paymentMethod === method.id
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                    onClick={() => setPaymentMethod(method.id)}
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className={`p-2 rounded-full ${
-                        paymentMethod === method.id ? "bg-green-100" : "bg-gray-100"
-                      }`}>
-                        <method.icon 
-                          size={20} 
-                          className={paymentMethod === method.id ? "text-green-600" : "text-gray-600"} 
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2">
-                          <h4 className="font-medium text-gray-900">{method.name}</h4>
-                          {method.popular && (
-                            <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                              Popular
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-600">{method.description}</p>
-                      </div>
-                      <div className={`w-5 h-5 rounded-full border-2 ${
-                        paymentMethod === method.id
-                          ? "border-green-500 bg-green-500"
-                          : "border-gray-300"
-                      }`}>
-                        {paymentMethod === method.id && (
-                          <CheckCircle size={16} className="text-white ml-0.5 mt-0.5" />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Security Note */}
             <div className="bg-blue-50 p-4 rounded-xl flex items-start space-x-3">
               <Shield className="text-blue-600 mt-1" size={20} />
               <div>
                 <h4 className="font-medium text-blue-900">Secure & Safe</h4>
                 <p className="text-sm text-blue-700">
-                  Your personal information is protected with end-to-end encryption. 
-                  For immediate support, call +91 8160333243
+                  Your personal information is protected with end-to-end encryption.
+                  For support, call +91 8160333243
                 </p>
               </div>
             </div>
@@ -266,17 +210,9 @@ const Checkout = ({ isOpen, onClose, cartItems, onConfirmOrder }: CheckoutProps)
           <div className="border-t p-6 bg-gray-50">
             <button
               onClick={handleConfirmOrder}
-              disabled={isProcessing}
-              className="w-full bg-green-600 text-white py-4 rounded-full font-semibold text-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="w-full bg-green-600 text-white py-4 rounded-full font-semibold text-lg hover:bg-green-700 transition-colors"
             >
-              {isProcessing ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  <span>Processing Order...</span>
-                </>
-              ) : (
-                <span>Confirm Order - ₹{finalTotal}</span>
-              )}
+              Confirm Order - ₹{finalTotal}
             </button>
             <p className="text-xs text-gray-500 text-center mt-2">
               By placing this order, you agree to our terms and conditions

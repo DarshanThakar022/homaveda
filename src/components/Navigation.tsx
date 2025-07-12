@@ -28,7 +28,7 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
             className="flex items-center"
           >
             <span className="text-2xl font-bold text-green-800">HOMAVEDA</span>
-            <span className="ml-2 text-sm text-green-600 font-medium">by Dr. Wellness</span>
+            {/* <span className="ml-2 text-sm text-green-600 font-medium">by Dr. Drashti Thakar</span> */}
           </motion.div>
 
           {/* Desktop Menu */}
@@ -60,14 +60,14 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
               )}
             </button>
             <a
-              href="tel:+919876543210"
+              href="tel:+918160333243"
               className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors duration-200"
             >
               <Phone size={16} />
               <span className="text-sm">Call Now</span>
             </a>
             <a
-              href="https://wa.me/919876543210"
+              href="https://wa.me/918160333243"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition-colors duration-200"
@@ -121,14 +121,14 @@ const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
             ))}
             <div className="flex space-x-2 px-3 py-2">
               <a
-                href="tel:+919876543210"
+                href="tel:+918160333243"
                 className="flex items-center space-x-2 bg-green-600 text-white px-3 py-2 rounded-full text-sm"
               >
                 <Phone size={14} />
                 <span>Call</span>
               </a>
               <a
-                href="https://wa.me/919876543210"
+                href="https://wa.me/918160333243"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 bg-green-500 text-white px-3 py-2 rounded-full text-sm"

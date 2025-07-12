@@ -200,7 +200,7 @@ const ProductShowcase = ({ onAddToCart }: ProductShowcaseProps) => {
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
-          <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-600">
+          {/* <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-600">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
               <span>Free Shipping Above ₹999</span>
@@ -213,7 +213,7 @@ const ProductShowcase = ({ onAddToCart }: ProductShowcaseProps) => {
               <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
               <span>Trusted by 10,000+ Customers</span>
             </div>
-          </div>
+          </div> */}
         </motion.div>
       </div>
     </section>

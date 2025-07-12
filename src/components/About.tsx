@@ -28,7 +28,7 @@ const About = () => {
                 viewport={{ once: true }}
                 className="text-4xl lg:text-5xl font-bold text-gray-900"
               >
-                Meet Dr. <span className="text-green-600">Wellness</span>
+                Meet Dr. <span className="text-green-600">Drashti Thakar</span>
                 <br />
                 <span className="text-2xl lg:text-3xl text-gray-700 font-medium">
                   Your Trusted Hair Care Expert
@@ -114,7 +114,7 @@ const About = () => {
                   <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto shadow-lg">
                     <span className="text-6xl">👨‍⚕️</span>
                   </div>
-                  <p className="text-green-800 font-semibold text-lg">Dr. Wellness</p>
+                  <p className="text-green-800 font-semibold text-lg">Dr.Drashti Thakar</p>
                   <p className="text-green-600">Homeopathic Specialist</p>
                 </div>
               </div>
