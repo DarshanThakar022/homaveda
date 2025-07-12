@@ -1,8 +1,12 @@
 
 import { motion } from "framer-motion";
 import { ShoppingCart, Eye, Heart, Star } from "lucide-react";
+import { useState } from "react";
 
 const ProductShowcase = () => {
+  const [cart, setCart] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<number[]>([]);
+
   const products = [
     {
       id: 1,
@@ -13,7 +17,7 @@ const ProductShowcase = () => {
       rating: 4.8,
       reviews: 156,
       features: ["Arnica & Jaborandi", "Prevents Hair Fall", "100ml Premium Bottle"],
-      image: "oil"
+      image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop"
     },
     {
       id: 2,
@@ -24,9 +28,34 @@ const ProductShowcase = () => {
       rating: 4.9,
       reviews: 203,
       features: ["Amla & Brahmi", "Chemical Free", "200ml Natural Formula"],
-      image: "shampoo"
+      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop"
     }
   ];
+
+  const addToCart = (productId: number) => {
+    setCart(prev => [...prev, productId]);
+    alert(`Product added to cart! Items in cart: ${cart.length + 1}`);
+  };
+
+  const toggleFavorite = (productId: number) => {
+    setFavorites(prev => 
+      prev.includes(productId) 
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const buyNow = (productId: number) => {
+    const product = products.find(p => p.id === productId);
+    alert(`Redirecting to payment for ${product?.name} - ${product?.price}`);
+    // In a real app, this would redirect to a payment gateway
+  };
+
+  const viewProduct = (productId: number) => {
+    const product = products.find(p => p.id === productId);
+    alert(`Viewing details for ${product?.name}`);
+    // In a real app, this would open a product detail modal or page
+  };
 
   return (
     <section id="products" className="py-20 bg-white">
@@ -59,25 +88,31 @@ const ProductShowcase = () => {
               className="group"
             >
               <div className="bg-gradient-to-br from-green-50 to-amber-50 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:scale-105">
-                {/* Product Image Placeholder */}
+                {/* Product Image */}
                 <div className="relative mb-6">
-                  <div className="w-full h-64 bg-gradient-to-br from-green-100 to-amber-100 rounded-2xl flex items-center justify-center mb-4">
-                    <div className="text-center">
-                      <div className="w-24 h-24 bg-green-200 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <span className="text-2xl">
-                          {product.image === 'oil' ? '🫒' : '🧴'}
-                        </span>
-                      </div>
-                      <p className="text-green-700 font-medium">{product.image === 'oil' ? 'Hair Oil' : 'Shampoo'}</p>
-                    </div>
+                  <div className="w-full h-64 rounded-2xl overflow-hidden mb-4">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   
                   {/* Quick Actions */}
                   <div className="absolute top-4 right-4 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <button className="bg-white p-2 rounded-full shadow-md hover:bg-green-50 transition-colors">
-                      <Heart size={18} className="text-gray-600 hover:text-red-500" />
+                    <button 
+                      onClick={() => toggleFavorite(product.id)}
+                      className="bg-white p-2 rounded-full shadow-md hover:bg-green-50 transition-colors"
+                    >
+                      <Heart 
+                        size={18} 
+                        className={`${favorites.includes(product.id) ? 'text-red-500 fill-current' : 'text-gray-600 hover:text-red-500'}`}
+                      />
                     </button>
-                    <button className="bg-white p-2 rounded-full shadow-md hover:bg-green-50 transition-colors">
+                    <button 
+                      onClick={() => viewProduct(product.id)}
+                      className="bg-white p-2 rounded-full shadow-md hover:bg-green-50 transition-colors"
+                    >
                       <Eye size={18} className="text-gray-600 hover:text-green-600" />
                     </button>
                   </div>
@@ -130,11 +165,17 @@ const ProductShowcase = () => {
 
                   {/* Action Buttons */}
                   <div className="flex space-x-3 pt-4">
-                    <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-full font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center space-x-2">
+                    <button 
+                      onClick={() => addToCart(product.id)}
+                      className="flex-1 bg-green-600 text-white py-3 px-6 rounded-full font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center space-x-2"
+                    >
                       <ShoppingCart size={18} />
                       <span>Add to Cart</span>
                     </button>
-                    <button className="bg-amber-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-amber-600 transition-colors duration-200">
+                    <button 
+                      onClick={() => buyNow(product.id)}
+                      className="bg-amber-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-amber-600 transition-colors duration-200"
+                    >
                       Buy Now
                     </button>
                   </div>
@@ -143,6 +184,19 @@ const ProductShowcase = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Cart Summary */}
+        {cart.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 text-center"
+          >
+            <div className="bg-green-100 text-green-800 px-6 py-3 rounded-full inline-block">
+              Items in cart: {cart.length}
+            </div>
+          </motion.div>
+        )}
 
         {/* Trust Badges */}
         <motion.div
