@@ -24,9 +24,26 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
+    // Create email content
+    const emailSubject = `New Customer Inquiry from ${formData.name}`;
+    const emailBody = `
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Message: ${formData.message}
+
+Doctor Contact: +91 8160333243
+    `;
+    
+    // Create mailto link
+    const mailtoLink = `mailto:doctor@homaveda.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
     // Simulate form submission
     setTimeout(() => {
-      alert("Thank you for your message! We'll get back to you within 24 hours.");
+      // Open default email client
+      window.location.href = mailtoLink;
+      
+      alert(`Thank you for your message! Your inquiry has been sent to our medical team. Doctor will contact you at ${formData.phone || formData.email}. For immediate assistance, call +91 8160333243`);
       setFormData({ name: "", email: "", phone: "", message: "" });
       setIsSubmitting(false);
     }, 1000);
@@ -67,7 +84,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Call Us</h3>
-                    <p className="text-gray-600">+91 98765 43210</p>
+                    <p className="text-gray-600">+91 8160333243</p>
                   </div>
                 </div>
               </div>
@@ -79,7 +96,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Email Us</h3>
-                    <p className="text-gray-600">info@homaveda.com</p>
+                    <p className="text-gray-600">doctor@homaveda.com</p>
                   </div>
                 </div>
               </div>
@@ -138,14 +155,14 @@ const Contact = () => {
             {/* Quick Contact Buttons */}
             <div className="flex space-x-4">
               <a
-                href="tel:+919876543210"
+                href="tel:+918160333243"
                 className="flex-1 bg-green-600 text-white py-4 px-6 rounded-full font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center space-x-2"
               >
                 <Phone size={20} />
                 <span>Call Now</span>
               </a>
               <a
-                href="https://wa.me/919876543210"
+                href="https://wa.me/918160333243"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 bg-green-500 text-white py-4 px-6 rounded-full font-semibold hover:bg-green-600 transition-colors duration-200 flex items-center justify-center space-x-2"
@@ -192,7 +209,7 @@ const Contact = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
-                    placeholder="+91 98765 43210"
+                    placeholder="+91 8160333243"
                   />
                 </div>
               </div>

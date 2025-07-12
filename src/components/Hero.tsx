@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Leaf, Star, Shield } from "lucide-react";
 
@@ -95,13 +96,13 @@ const Hero = () => {
             >
               <button 
                 onClick={scrollToProducts}
-                className="bg-green-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg cursor-pointer"
+                className="bg-green-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
               >
                 Shop Products
               </button>
               <button 
                 onClick={scrollToAbout}
-                className="border-2 border-green-600 text-green-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-600 hover:text-white transition-all duration-200 cursor-pointer"
+                className="border-2 border-green-600 text-green-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-600 hover:text-white transition-all duration-200"
               >
                 Learn More
               </button>

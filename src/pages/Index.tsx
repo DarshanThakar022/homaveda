@@ -8,6 +8,7 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import Cart from "../components/Cart";
+import Checkout from "../components/Checkout";
 
 interface CartItem {
   id: number;
@@ -20,6 +21,7 @@ interface CartItem {
 const Index = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   const addToCart = (product: { id: number; name: string; price: string; image: string }) => {
     setCartItems(prev => {
@@ -48,8 +50,44 @@ const Index = () => {
   };
 
   const handleCheckout = () => {
-    alert(`Proceeding to checkout with ${cartItems.length} items. Total: ₹${cartItems.reduce((sum, item) => sum + (parseInt(item.price.slice(1)) * item.quantity), 0)}`);
-    // Here you would integrate with your payment system
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
+
+  const handleConfirmOrder = (paymentMethod: string, customerDetails: any) => {
+    const orderSummary = {
+      items: cartItems,
+      total: cartItems.reduce((sum, item) => sum + (parseInt(item.price.slice(1)) * item.quantity), 0),
+      paymentMethod,
+      customerDetails,
+      orderDate: new Date().toLocaleString()
+    };
+
+    // Create order confirmation message
+    const orderMessage = `
+🎉 ORDER CONFIRMED! 🎉
+
+Order Details:
+${cartItems.map(item => `• ${item.name} x${item.quantity} - ${item.price}`).join('\n')}
+
+Total: ₹${orderSummary.total + (orderSummary.total >= 999 ? 0 : 99)}
+Payment: ${paymentMethod === 'cod' ? 'Cash on Delivery' : paymentMethod === 'upi' ? 'UPI Payment' : 'Card Payment'}
+
+Customer: ${customerDetails.name}
+Phone: ${customerDetails.phone}
+Address: ${customerDetails.address}
+
+Your order will be delivered within 3-5 business days.
+For any queries, call +91 8160333243
+
+Thank you for choosing HOMAVEDA! 🌿
+    `;
+
+    alert(orderMessage);
+
+    // Clear cart after successful order
+    setCartItems([]);
+    setIsCheckoutOpen(false);
   };
 
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -72,6 +110,12 @@ const Index = () => {
         onUpdateQuantity={updateQuantity}
         onRemoveItem={removeFromCart}
         onCheckout={handleCheckout}
+      />
+      <Checkout
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        cartItems={cartItems}
+        onConfirmOrder={handleConfirmOrder}
       />
     </div>
   );

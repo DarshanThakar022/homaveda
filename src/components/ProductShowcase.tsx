@@ -66,18 +66,6 @@ const ProductShowcase = ({ onAddToCart }: ProductShowcaseProps) => {
     );
   };
 
-  const buyNow = (product: Product) => {
-    // Add to cart first
-    onAddToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image
-    });
-    // Then show checkout message
-    alert(`Redirecting to checkout for ${product.name} - ${product.price}`);
-  };
-
   const viewProduct = (productId: number) => {
     const product = products.find(p => p.id === productId);
     alert(`Viewing details for ${product?.name}`);
@@ -189,20 +177,14 @@ const ProductShowcase = ({ onAddToCart }: ProductShowcaseProps) => {
                     </span>
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex space-x-3 pt-4">
+                  {/* Action Button - Only Add to Cart */}
+                  <div className="pt-4">
                     <button 
                       onClick={() => handleAddToCart(product)}
-                      className="flex-1 bg-green-600 text-white py-3 px-6 rounded-full font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center space-x-2"
+                      className="w-full bg-green-600 text-white py-3 px-6 rounded-full font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center space-x-2"
                     >
                       <ShoppingCart size={18} />
                       <span>Add to Cart</span>
-                    </button>
-                    <button 
-                      onClick={() => buyNow(product)}
-                      className="bg-amber-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-amber-600 transition-colors duration-200"
-                    >
-                      Buy Now
                     </button>
                   </div>
                 </div>
