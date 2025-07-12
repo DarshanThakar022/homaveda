@@ -3,11 +3,26 @@ import { motion } from "framer-motion";
 import { ShoppingCart, Eye, Heart, Star } from "lucide-react";
 import { useState } from "react";
 
-const ProductShowcase = () => {
-  const [cart, setCart] = useState<number[]>([]);
+interface Product {
+  id: number;
+  name: string;
+  subtitle: string;
+  price: string;
+  originalPrice: string;
+  rating: number;
+  reviews: number;
+  features: string[];
+  image: string;
+}
+
+interface ProductShowcaseProps {
+  onAddToCart: (product: { id: number; name: string; price: string; image: string }) => void;
+}
+
+const ProductShowcase = ({ onAddToCart }: ProductShowcaseProps) => {
   const [favorites, setFavorites] = useState<number[]>([]);
 
-  const products = [
+  const products: Product[] = [
     {
       id: 1,
       name: "Homaveda Hair Oil",
@@ -32,9 +47,15 @@ const ProductShowcase = () => {
     }
   ];
 
-  const addToCart = (productId: number) => {
-    setCart(prev => [...prev, productId]);
-    alert(`Product added to cart! Items in cart: ${cart.length + 1}`);
+  const handleAddToCart = (product: Product) => {
+    onAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
+    // Show success feedback
+    alert(`${product.name} added to cart!`);
   };
 
   const toggleFavorite = (productId: number) => {
@@ -45,16 +66,21 @@ const ProductShowcase = () => {
     );
   };
 
-  const buyNow = (productId: number) => {
-    const product = products.find(p => p.id === productId);
-    alert(`Redirecting to payment for ${product?.name} - ${product?.price}`);
-    // In a real app, this would redirect to a payment gateway
+  const buyNow = (product: Product) => {
+    // Add to cart first
+    onAddToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
+    // Then show checkout message
+    alert(`Redirecting to checkout for ${product.name} - ${product.price}`);
   };
 
   const viewProduct = (productId: number) => {
     const product = products.find(p => p.id === productId);
     alert(`Viewing details for ${product?.name}`);
-    // In a real app, this would open a product detail modal or page
   };
 
   return (
@@ -166,14 +192,14 @@ const ProductShowcase = () => {
                   {/* Action Buttons */}
                   <div className="flex space-x-3 pt-4">
                     <button 
-                      onClick={() => addToCart(product.id)}
+                      onClick={() => handleAddToCart(product)}
                       className="flex-1 bg-green-600 text-white py-3 px-6 rounded-full font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center space-x-2"
                     >
                       <ShoppingCart size={18} />
                       <span>Add to Cart</span>
                     </button>
                     <button 
-                      onClick={() => buyNow(product.id)}
+                      onClick={() => buyNow(product)}
                       className="bg-amber-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-amber-600 transition-colors duration-200"
                     >
                       Buy Now
@@ -184,19 +210,6 @@ const ProductShowcase = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Cart Summary */}
-        {cart.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-8 text-center"
-          >
-            <div className="bg-green-100 text-green-800 px-6 py-3 rounded-full inline-block">
-              Items in cart: {cart.length}
-            </div>
-          </motion.div>
-        )}
 
         {/* Trust Badges */}
         <motion.div

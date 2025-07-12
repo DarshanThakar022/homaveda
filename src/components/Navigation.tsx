@@ -1,9 +1,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X, Phone, MessageCircle } from "lucide-react";
+import { Menu, X, Phone, MessageCircle, ShoppingCart } from "lucide-react";
 
-const Navigation = () => {
+interface NavigationProps {
+  cartItemsCount: number;
+  onCartClick: () => void;
+}
+
+const Navigation = ({ cartItemsCount, onCartClick }: NavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -41,8 +46,19 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* Contact Buttons */}
+          {/* Contact Buttons and Cart */}
           <div className="hidden md:flex items-center space-x-4">
+            <button
+              onClick={onCartClick}
+              className="relative p-2 text-gray-700 hover:text-green-600 transition-colors"
+            >
+              <ShoppingCart size={20} />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </button>
             <a
               href="tel:+919876543210"
               className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors duration-200"
@@ -62,7 +78,18 @@ const Navigation = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-2">
+            <button
+              onClick={onCartClick}
+              className="relative p-2 text-gray-700 hover:text-green-600 transition-colors"
+            >
+              <ShoppingCart size={20} />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-green-600 focus:outline-none"
